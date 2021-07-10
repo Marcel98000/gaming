@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<meta charset = "UTF-8">
+<head>
+    <link rel = "icon" href = "https://cdn.discordapp.com/attachments/597853022608949249/863158650906345475/image0.png">
+</head>
+<body>
+    <title>Die Gaming Zone</title>
+    <style>
+        body {
+            font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: #1d2030;
+        }
+
+        #title_background {
+            height: 384px;
+            background-color: #242733;
+            margin-top: 0px;
+        }
+
+        .mask_title {
+            color: #242733;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 128px;
+            text-align: center;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-image: url(title_mask.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #242733;
+            margin-top: -275px;
+        }
+
+        #gradient {
+            height: 256px;
+            background-image: linear-gradient(#242733, #1d2030);
+        }
+
+        #first_space {
+            height: 64px;
+        }
+
+        #space {
+            height: 256px;
+            width: 4px;
+            background-color: #333e4e;
+            margin-left: 128px;
+            margin-top: -144px;
+        }
+
+        .header {
+            color: #ffffff;
+            font-size: 64px;
+            text-align: left;
+            line-height: 0px;
+            margin-left: 128px;
+        }
+
+        .text_block {
+            color: #ffffff;
+            font-size: 32px;
+            text-align: left;
+            font-style: italic;
+            margin-left: 256px;
+        }
+
+        .bottom_text {
+            color: #262a3d;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        a:link {
+            color: #0034c2;
+        }
+
+        a:visited {
+            color: #5a00cf;
+        }
+
+        a:hover {
+            color: #00c3ff;
+        }
+
+        a:active {
+            color: #0034c2;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var title_images = [
+                'img/title1.png',
+                'img/title2.png',
+                'img/title3.png',
+                'img/title4.png'
+            ];
+            document.querySelector('.mask_title').style.backgroundImage = 'url(' + title_images[Math.floor(Math.random() * title_images.length)] + ')';
+        }
+    </script>
+    <div id = "title_background"></div>
+    <p class = "mask_title"><b>Die Gaming Zone</b></p>
+    <div id = "gradient"></div>
+    <div id = "first_space"></div>
+    <p class = "header"><b>Willkommen</b></p>
+    <p class = "text_block">
+        Das ist meine Website die noch nicht viel hat.
+        <br>Hier kommt später noch mehr Zeug hin und es wird mehrere Seiten geben.
+        <br>gaming
+    </p>
+    <div id = "space"></div>
+    <p class = "header"><b>Krasse Scheiße</b></p>
+    <p class = "text_block">
+        <a href = "https://www.youtube.com/channel/UCLQ54eFzrlikD0JZwDK54zg">Mein einigermaßen toter Youtube Kanal</a>
+        <br><a href = "https://www.youtube.com/channel/UCk4Ngzfk_akHzCG5AYL31ig">Nen Typ der tatsächlich recht gute Videos macht</a>
+        <br><a href = "https://www.youtube.com/channel/UCzZBqtNs8f-UtduKMNnycjQ">Schlechter Shitposter</a>
+    </p>
+    <div id = "space"></div>
+    <p class = "header"><b>Bald gibt es mehr...</b></p>
+    <p class = "text_block">
+        Diese Website ist offensichtlicherweise
+        <br>unfertig, aber bald™ wird es hier echt coole
+        <br>Sachen geben!
+    </p>
+    <div id = "space"></div>
+    <p class = "bottom_text">Copyright 2021 Die Gaming Zone | All Rights Reserved und so ne scheiße lol.<br>Powered by Github and your Mom.</p>
+</body>
+</html>
