@@ -102,6 +102,12 @@
                 'img/title4.png'
             ];
             document.querySelector('.mask_title').style.backgroundImage = 'url(' + title_images[Math.floor(Math.random() * title_images.length)] + ')';
+
+            let month = new Date().getMonth();
+            if (month == 5) {
+                document.title = 'Die Gayming Zone';
+                document.getElementById('title').textContent = 'Die Gayming Zone';
+            }
         }
     </script>
     <div id = "title_background"></div>
