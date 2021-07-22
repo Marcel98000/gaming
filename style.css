@@ -1,0 +1,168 @@
+/* General CSS for all of the Sites */
+
+body {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background-color: #1d2030;
+    color: #ffffff;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #1d2030;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom: 2px solid #262a3d;
+    z-index: 1;
+}
+
+li {
+    display: inline;
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a img {
+    height: 32px;
+}
+
+.active {
+    border-bottom: 8px solid #262a3d;
+}
+
+#title_background {
+    height: 384px;
+    background-color: #242733;
+    margin-top: 0px;
+}
+
+.mask_title {
+    color: #242733;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 128px;
+    text-align: center;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-image: url(title_mask.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #242733;
+    margin-top: -275px;
+}
+
+.title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 128px;
+    text-align: center;
+    background-color: #242733;
+    margin-top: -275px;
+}
+
+#gradient {
+    height: 256px;
+    background-image: linear-gradient(#242733, #1d2030);
+}
+
+#space {
+    height: 100000px;
+    margin-top: -100000px;
+    width: 4px;
+    background-color: #333e4e;
+    margin-left: 128px;
+    z-index: -1;
+    position: relative;
+}
+
+.header {
+    font-size: 64px;
+    text-align: left;
+    margin-left: 128px;
+    z-index: 0;
+    position: relative;
+    border-width: 5px;
+    border-color: #1d2030;
+    border-style: solid;
+}
+
+.text_block {
+    font-size: 32px;
+    text-align: left;
+    font-style: italic;
+    margin-left: 256px;
+}
+
+.bottom_text {
+    color: #262a3d;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+a:link {
+    color: #0034c2;
+}
+
+a:visited {
+    color: #5a00cf;
+}
+
+a:hover {
+    color: #00c3ff;
+}
+
+a:active {
+    color: #0034c2;
+}
+
+/* More Page Specific Stuff 
+   Stuff for MC Item Generator */
+
+label {
+    margin-left: 256px;
+    font-size: 48px;
+}
+
+input {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background-color: #0c0e18;
+    border-color: #262a3d;
+    color: #ffffff;
+    font-size: 32px;
+    margin-left: 256px;
+    width: 1024px;
+    border-radius: 8px;
+}
+
+textarea {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background-color: #0c0e18;
+    border-color: #262a3d;
+    color: #ffffff;
+    font-size: 32px;
+    margin-left: 256px;
+    width: 1024px;
+    height: 512px;
+    border-radius: 8px;
+}
+
+button {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background-color: #0c0e18;
+    border-color: #262a3d;
+    color: #ffffff;
+    font-size: 32px;
+    border-radius: 8px;
+    margin-left: 256px;
+}
