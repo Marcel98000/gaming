@@ -1,9 +1,28 @@
-/* General CSS for all of the Sites */
+/* Farben als Variablen damit ich einfach alle Farben ändern kann ja voll krass oder */
+
+:root {
+    --button_and_input: #0c0e18;
+    --background: #1d2030;
+    --border_color: #262a3d;
+    --top_background: #242733;
+    --indent_line: #333e4e;
+    --text: #ffffff;
+    --link: #0034c2;
+    --visited: #5a00cf;
+    --hover: #00c3ff;
+    --active: #0034c2;
+    --vibrant-gradient1: #0d32fb;
+    --vibrant-gradient2: #1933c1;
+    --vibrant-gradient3: #18277a;
+    --vibrant-gradient4: #15205d;
+}
+
+/* Actual CSS Stuff */
 
 body {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    background-color: #1d2030;
-    color: #ffffff;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 ::-webkit-scrollbar {
@@ -14,11 +33,11 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #1d2030;
+    background-color: var(--background);
     position: fixed;
     top: 0;
     width: 100%;
-    border-bottom: 2px solid #262a3d;
+    border-bottom: 2px solid var(--border_color);
     z-index: 1;
 }
 
@@ -27,30 +46,94 @@ li {
     float: left;
 }
 
-li a {
+li a, li button {
     display: block;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
+li a:hover:not(.active):not(.tools_dropdown li a), li button:hover:not(.active) {
+    animation: navbar_hover 500ms forwards;
+}
+
+@keyframes navbar_hover {
+    0% {
+        border-bottom: 0px solid var(--border_color);
+    }
+    100% {
+        border-bottom: 8px solid var(--border_color);
+    }
+}
+
 li a img {
     height: 32px;
 }
 
+li button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+li button img {
+    height: 32px;
+}
+
 .active {
-    border-bottom: 8px solid #262a3d;
+    border-bottom: 8px solid var(--border_color);
+}
+
+.dropdown {
+    height: auto;
+    background: var(--button_and_input);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    margin: auto;
+}
+
+.tools {
+    position: relative;
+}
+
+.tools ul {
+    position: absolute;
+    margin-top: 16px;
+    width: 256px;
+    height: 256px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: all 250ms ease;
+}
+
+.tools a {
+    text-decoration: none;
+}
+
+.tools_button:focus + .tools_dropdown {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
 }
 
 #title_background {
-    height: 384px;
-    background-color: #242733;
+    min-height: 384px;
+    height: auto;
+    background-color: var(--vibrant-gradient1);
     margin-top: 0px;
 }
 
 .mask_title {
-    color: #242733;
-    font-family: Arial, Helvetica, sans-serif;
+    color: var(--vibrant-gradient1);
+    font-family: 'Oxygen';
     font-size: 128px;
     text-align: center;
     -webkit-text-fill-color: transparent;
@@ -58,28 +141,30 @@ li a img {
     background-image: url(title_mask.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-color: #242733;
+    background-color: var(--vibrant-gradient1);
     margin-top: -275px;
 }
 
 .title {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Oxygen';
     font-size: 128px;
     text-align: center;
-    background-color: #242733;
+    background-color: var(--vibrant-gradient1);
     margin-top: -275px;
 }
 
 #gradient {
     height: 256px;
-    background-image: linear-gradient(#242733, #1d2030);
+    background: repeat-x;
+    margin-top: -16px;
+    background-image: url(img/gradient.png), linear-gradient(0deg, rgba(29,32,48,1) 48%, rgba(255,255,255,1) 49%, rgba(13,50,251,1) 50%);
 }
 
 #space {
     height: 100000px;
     margin-top: -100000px;
     width: 4px;
-    background-color: #333e4e;
+    background-color: var(--indent_line);
     margin-left: 128px;
     z-index: -1;
     position: relative;
@@ -91,9 +176,7 @@ li a img {
     margin-left: 128px;
     z-index: 0;
     position: relative;
-    border-width: 5px;
-    border-color: #1d2030;
-    border-style: solid;
+    border: var(--background) solid 5px;
 }
 
 .text_block {
@@ -104,30 +187,29 @@ li a img {
 }
 
 .bottom_text {
-    color: #262a3d;
+    color: var(--border_color);
     font-size: 16px;
     text-align: center;
     margin-bottom: 4px;
 }
 
 a:link {
-    color: #0034c2;
+    color: var(--link);
 }
 
 a:visited {
-    color: #5a00cf;
+    color: var(--visited);
 }
 
 a:hover {
-    color: #00c3ff;
+    color: var(--hover);
 }
 
 a:active {
-    color: #0034c2;
+    color: var(--link);
 }
 
-/* More Page Specific Stuff 
-   Stuff for MC Item Generator */
+/* Tools */
 
 label {
     margin-left: 256px;
@@ -136,32 +218,32 @@ label {
 
 input {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    background-color: #0c0e18;
-    border-color: #262a3d;
-    color: #ffffff;
+    background-color: var(--button_and_input);
+    border-color: var(--border_color);
+    border-radius: 8px;
+    color: var(--text);
     font-size: 32px;
     margin-left: 256px;
-    width: 1024px;
-    border-radius: 8px;
+    width: 50%;
 }
 
 textarea {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    background-color: #0c0e18;
-    border-color: #262a3d;
-    color: #ffffff;
+    background-color: var(--button_and_input);
+    border-color: var(--border_color);
+    border-radius: 8px;
+    color: var(--text);
     font-size: 32px;
     margin-left: 256px;
-    width: 1024px;
+    width: 50%;
     height: 512px;
-    border-radius: 8px;
 }
 
-button {
+button:not(li button) {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    background-color: #0c0e18;
-    border-color: #262a3d;
-    color: #ffffff;
+    background-color: var(--button_and_input);
+    border-color: var(--border_color);
+    color: var(--text);
     font-size: 32px;
     border-radius: 8px;
     margin-left: 256px;
