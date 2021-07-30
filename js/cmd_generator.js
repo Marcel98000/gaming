@@ -12,47 +12,6 @@ function remove_object (type) {
     elements[elements.length - 1].remove();
 }
 
-// cookies coming soon:tm: (hab ich noch nicht mal getestet)
-
-//window.onload = function () {
-//    // Loads Cookie Data
-//    if (document.cookie.indexOf('cookie=') == -1) {
-//        var expiry_date = new Date();
-//        expiry_date.setMonth(expiry_date.getMonth() + 1);
-//        document.cookie = `cookie=item_cookie; expires=${expiry_date.toUTCString()}; path=/`;
-//    } else {
-//        var data = document.cookie.split('; ');
-//        for (var i = 0; i < data.length; i++) data[i] = data[i].split('=')[1];
-//        var nbt = {
-//            id: data[1],
-//            count: data[2],
-//            name: data[3],
-//            lore: data[4],
-//            attributes: data[5],
-//            enchantments: data[6]
-//        };
-//        document.getElementById('input_item_id').value = nbt.id;
-//        document.getElementById('input_item_count').value = nbt.count;
-//        document.getElementById('input_item_name').value = nbt.name;
-//        document.getElementById('input_item_lore').value = nbt.lore;
-//        // attribute & enchantment shit soon
-//    }
-//}
-
-//window.setInterval(function () {
-//    // Saves Data to Cookie every 10 Seconds
-//    var param = document.getElementsByName('param');
-//    var nbt = {
-//        id: param[0].value, // String
-//        count: param[1].value, // Integer
-//        name: param[2].value, // String
-//        lore: param[3].value, // String
-//        attributes: document.getElementsByName('input_item_attribute'), // Object
-//        enchantments: document.getElementsByName('input_item_enchantment') // Object
-//    };
-//    document.cookie = `cookie=item_cookie; id=${nbt.id}; count=${nbt.count}; name=${nbt.name}; lore=${nbt.lore}; attributes=${nbt.attributes}; enchantments=${nbt.enchantments}; expires=${expiry_date.toUTCString()}; path=/`;
-//}, 10000);
-
 // Das krasse Ding
 // Ich sollte mehr Kommentare einbauen damit ich später diese Scheiße verstehe
 function generate_command (nbt) {
