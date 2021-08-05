@@ -30,11 +30,82 @@ function generate_command (nbt) {
                 line = line.split('§');
                 if (line.length == 1) converted_line += `{\\"text\\":\\"${line[0]}\\",\\"italic\\":\\"false\\"}`;
                 else {
+                    // [ text § formatierung § text ]
+                    //    L---> formatiert       L---- nicht formatert
+                    // BeispieL: hallo das ist ein§color:blue/bold§ item§color:dark_blue/underline§
+                    var used_formatting = [], index = 0;
                     for (var i = 0; i < line.length; i++) {
                         if (i % 2 == 0) {
                             converted_line += `{\\"text\\":\\"${line[i]}\\"`;
                             if (i + 2 <= line.length) {
                                 var formatting = line[i + 1].split('/');
+                                
+                                // used_formatting wird beim generieren des commands überprüft, damit nicht teile des commands unnötig wiederholt werden.
+                                used_formatting[index] = {
+                                    obfuscated: false,
+                                    bold: false,
+                                    strikethrough: false,
+                                    underline: false,
+                                    italic: false,
+                                    color: null
+                                };
+
+                                formatting.foreach(attribute => {
+                                    switch (attribute) {
+                                        case 'obfuscated':
+                                            used_formatting[index].obfuscated = true;
+                                            continue;
+                                        case 'bold':
+                                            used_formatting[index].bold = true;
+                                            continue;
+                                        case 'strikethrough':
+                                            used_formatting[index].strikethrough = true;
+                                            continue;
+                                        case 'underline':
+                                            used_formatting[index].underline = true;
+                                            continue;
+                                        case 'italic':
+                                            used_formatting[index].italic = true;
+                                            continue;
+                                    }
+                                });
+
+                                for (var j = 0; j < formatting.length; j++) if (formatting[j].includes('color')) {
+                                    used_formatting[index].color = formatting[j].split(':')[1];
+                                    break;
+                                }
+
+                                // generiert den text mithilfe von used_formatting
+                                if (used_formatting[index].color == null) converted_line += ',\\"color\\":\\"reset\\"';
+                                else if (used_formatting[index].color != used_formatting[index - 1].color) converted_line += `,\\"color\\":\\"${used_formatting[index].color}\\"`;
+
+                                if (used_formatting[index].obfuscated && !used_formatting[index - 1].obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
+                                else if (!used_formatting[index].obfuscated) converted_line += ',\\"obfuscated\\":\\"false\\"';
+
+                                if (used_formatting[index].bold && !used_formatting[index - 1].bold) converted_line += ',\\"bold\\":\\"true\\"';
+                                else if (!used_formatting[index].bold) converted_line += ',\\"bold\\":\\"false\\"';
+
+                                if (used_formatting[index].strikethrough && !used_formatting[index - 1].strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
+                                else if (!used_formatting[index].strikethrough) converted_line += ',\\"strikethrough\\":\\"false\\"';
+
+                                if (used_formatting[index].underline && !used_formatting[index - 1].underline) converted_line += ',\\"underline\\":\\"true\\"';
+                                else if (!used_formatting[index].underline) converted_line += ',\\"underline\\":\\"false\\"';
+
+                                if (!used_formatting[index].italic && used_formatting[index - 1].italic) converted_line += ',\\"italic\\":\\"false\\"';
+                                else if (used_formatting[index].italic && !used_formatting[index - 1].italic) converted_line += ',\\"italic\\":\\"true\\"';
+
+                                index++;
+
+                                /*
+                                if (formatting.includes('obfuscated')) {
+                                    used_formatting[index].obfusacted = true;
+                                    if (index - 1 >= 0 && used_formatting[index - 1].obfusacted == false) {
+
+                                    } else converted_line += '';
+                                } else converted_line += ',\\"obfuscated\\":\\"false\\"';
+                                
+
+
                                 if (formatting.includes('obfuscated')) converted_line += ',\\"obfuscated\\":\\"true\\"';
                                 else converted_line += ',\\"obfuscated\\":\\"false\\"';
                                 if (formatting.includes('bold')) converted_line += ',\\"bold\\":\\"true\\"';
@@ -51,6 +122,7 @@ function generate_command (nbt) {
                                     has_color = true;
                                 }
                                 if (!has_color) converted_line += ',\\"color\\":\\"reset\\"';
+                                */
                                 converted_line += '}';
                             } else {
                                 converted_line += `{\\"text\\":\\"${line[i]}\\",\\"color\\":\\"reset\\",\\"obfuscated\\":\\"false\\",\\"bold\\":\\"false\\",\\"strikethrough\\":\\"false\\",\\"underline\\":\\"false\\",\\"italic\\":\\"false\\"}`;
