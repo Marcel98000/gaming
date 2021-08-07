@@ -52,5 +52,7 @@ window.setInterval(function () {
         attributes: getValues(document.getElementsByName('input_item_attribute')), // Object
         enchantments: getValues(document.getElementsByName('input_item_enchantment')) // Object
     };
+    var expiry_date = new Date();
+    expiry_date.setMonth(expiry_date.getMonth() + 1);
     document.cookie = `cookie=item_cookie; id=${nbt.id}; count=${nbt.count}; name=${nbt.name}; lore=${nbt.lore}; attributes=${nbt.attributes}; enchantments=${nbt.enchantments}; expires=${expiry_date.toUTCString()}; path=/`;
 }, 10000);
