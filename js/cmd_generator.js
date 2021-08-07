@@ -30,16 +30,16 @@ function generate_command (nbt) {
                 line = line.split('§');
                 if (line.length == 1) converted_line += `{\\"text\\":\\"${line[0]}\\",\\"italic\\":\\"false\\"}`;
                 else {
-                    // [ text § formatierung § text ]
-                    //    L---> formatiert       L---- nicht formatert
-                    // BeispieL: hallo das ist ein§color:blue/bold§ item§color:dark_blue/underline§
+                    /* [ text § formatierung § text ]
+                          L---> formatiert       L---- nicht formatert
+                    BeispieL: hallo das ist ein§color:blue/bold§ item§color:dark_blue/underline§ */
                     var used_formatting = [], index = 0;
                     for (var i = 0; i < line.length; i++) {
                         if (i % 2 == 0) {
                             converted_line += `{\\"text\\":\\"${line[i]}\\"`;
-                            if (i + 2 <= line.length) {
+                            if (i < line.length - 1) {
                                 var formatting = line[i + 1].split('/');
-                                
+
                                 // used_formatting wird beim generieren des commands überprüft, damit nicht teile des commands unnötig wiederholt werden.
                                 used_formatting[index] = {
                                     obfuscated: false,
@@ -77,23 +77,23 @@ function generate_command (nbt) {
                                     break;
                                 }
 
-                                if (index > 0) {
+                                if (index) {
                                     // generiert den text mithilfe von used_formatting
                                     if (current.color == null) converted_line += ',\\"color\\":\\"reset\\"';
                                     else if (current.color != previous.color) converted_line += `,\\"color\\":\\"${current.color}\\"`;
-    
+
                                     if (current.obfuscated && !previous.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
                                     else if (!current.obfuscated) converted_line += ',\\"obfuscated\\":\\"false\\"';
-    
+
                                     if (current.bold && !previous.bold) converted_line += ',\\"bold\\":\\"true\\"';
                                     else if (!current.bold) converted_line += ',\\"bold\\":\\"false\\"';
-    
+
                                     if (current.strikethrough && !previous.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
                                     else if (!current.strikethrough) converted_line += ',\\"strikethrough\\":\\"false\\"';
-    
+
                                     if (current.underline && !previous.underline) converted_line += ',\\"underline\\":\\"true\\"';
                                     else if (!current.underline) converted_line += ',\\"underline\\":\\"false\\"';
-    
+
                                     if (!current.italic && previous.italic) converted_line += ',\\"italic\\":\\"false\\"';
                                     else if (current.italic && !previous.italic) converted_line += ',\\"italic\\":\\"true\\"';
                                 } else {
@@ -109,10 +109,8 @@ function generate_command (nbt) {
                                 index++;
 
                                 converted_line += '}';
-                            } else {
-                                converted_line += `{\\"text\\":\\"${line[i]}\\",\\"color\\":\\"reset\\",\\"obfuscated\\":\\"false\\",\\"bold\\":\\"false\\",\\"strikethrough\\":\\"false\\",\\"underline\\":\\"false\\",\\"italic\\":\\"false\\"}`;
                                 if (i != line.length - 2) converted_line += ',';
-                            }
+                            } else converted_line += '}';
                         }
                     }
                 }
@@ -163,7 +161,10 @@ function generate_command (nbt) {
         command += ']';
     }
     if (ItemName != '' || ItemLore != '' || nbt.attributes.length != 0 || nbt.enchantments.length != 0) command += '}';
-    if (nbt.count != '') command += ` ${nbt.count}`;
+    if (nbt.count != '') {
+        command += ` ${nbt.count}`;
+        if (nbt.count > 6400) alert(`Die Itemanzahl ist ${nbt.count}, was größer als das limit von 6400 ist`);
+    }
     // Copy to Clipboard
     document.getElementById('output').value = command;
     document.getElementById('output').select();
