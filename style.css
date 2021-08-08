@@ -219,7 +219,7 @@ label {
 input {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     background-color: var(--button_and_input);
-    border-color: var(--border_color);
+    border: var(--border_color) solid 2px;
     border-radius: 8px;
     color: var(--text);
     font-size: 32px;
@@ -230,7 +230,7 @@ input {
 textarea {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     background-color: var(--button_and_input);
-    border-color: var(--border_color);
+    border: var(--border_color) solid 2px;
     border-radius: 8px;
     color: var(--text);
     font-size: 32px;
@@ -242,9 +242,9 @@ textarea {
 button:not(li button) {
     font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     background-color: var(--button_and_input);
-    border-color: var(--border_color);
     color: var(--text);
     font-size: 32px;
+    border: var(--border_color) solid 2px;
     border-radius: 8px;
     margin-left: 256px;
 }
