@@ -30,87 +30,82 @@ function generate_command (nbt) {
                 line = line.split('§');
                 if (line.length == 1) converted_line += `{\\"text\\":\\"${line[0]}\\",\\"italic\\":\\"false\\"}`;
                 else {
-                    /* [ text § formatierung § text ]
-                          L---> formatiert       L---- nicht formatert
-                    BeispieL: hallo das ist ein§color:blue/bold§ item§color:dark_blue/underline§ */
                     var used_formatting = [], index = 0;
                     for (var i = 0; i < line.length; i++) {
-                        if (i % 2 == 0) {
+                        if (i % 2 == 0 && i < line.length - 1) {
                             converted_line += `{\\"text\\":\\"${line[i]}\\"`;
-                            if (i < line.length - 1) {
-                                var formatting = line[i + 1].split('/');
+                            var formatting = line[i + 1].split('/');
 
-                                // used_formatting wird beim generieren des commands überprüft, damit nicht teile des commands unnötig wiederholt werden.
-                                used_formatting[index] = {
-                                    obfuscated: false,
-                                    bold: false,
-                                    strikethrough: false,
-                                    underline: false,
-                                    italic: false,
-                                    color: null
-                                };
+                            // used_formatting wird beim generieren des commands überprüft, damit nicht teile des commands unnötig wiederholt werden.
+                            used_formatting[index] = {
+                                obfuscated: false,
+                                bold: false,
+                                strikethrough: false,
+                                underline: false,
+                                italic: false,
+                                color: null
+                            };
 
-                                var current = used_formatting[index], previous = used_formatting[index - 1];
+                            var current = used_formatting[index], previous = used_formatting[index - 1];
 
-                                formatting.forEach(attribute => {
-                                    switch (attribute) {
-                                        case 'obfuscated':
-                                            current.obfuscated = true;
-                                            break;
-                                        case 'bold':
-                                            current.bold = true;
-                                            break;
-                                        case 'strikethrough':
-                                            current.strikethrough = true;
-                                            break;
-                                        case 'underline':
-                                            current.underline = true;
-                                            break;
-                                        case 'italic':
-                                            current.italic = true;
-                                            break;
-                                    }
-                                });
-
-                                for (var j = 0; j < formatting.length; j++) if (formatting[j].includes('color')) {
-                                    current.color = formatting[j].split(':')[1];
-                                    break;
+                            formatting.forEach(attribute => {
+                                switch (attribute) {
+                                    case 'obfuscated':
+                                        current.obfuscated = true;
+                                        break;
+                                    case 'bold':
+                                        current.bold = true;
+                                        break;
+                                    case 'strikethrough':
+                                        current.strikethrough = true;
+                                        break;
+                                    case 'underline':
+                                        current.underline = true;
+                                        break;
+                                    case 'italic':
+                                        current.italic = true;
+                                        break;
                                 }
+                            });
 
-                                if (index) {
-                                    // generiert den text mithilfe von used_formatting
-                                    if (current.color == null) converted_line += ',\\"color\\":\\"reset\\"';
-                                    else if (current.color != previous.color) converted_line += `,\\"color\\":\\"${current.color}\\"`;
+                            for (var j = 0; j < formatting.length; j++) if (formatting[j].includes('color')) {
+                                current.color = formatting[j].split(':')[1];
+                                break;
+                            }
 
-                                    if (current.obfuscated && !previous.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
-                                    else if (!current.obfuscated) converted_line += ',\\"obfuscated\\":\\"false\\"';
+                            if (index) {
+                                // generiert den text mithilfe von used_formatting
+                                if (current.color == null) converted_line += ',\\"color\\":\\"reset\\"';
+                                else if (current.color != previous.color) converted_line += `,\\"color\\":\\"${current.color}\\"`;
 
-                                    if (current.bold && !previous.bold) converted_line += ',\\"bold\\":\\"true\\"';
-                                    else if (!current.bold) converted_line += ',\\"bold\\":\\"false\\"';
+                                if (current.obfuscated && !previous.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
+                                else if (!current.obfuscated) converted_line += ',\\"obfuscated\\":\\"false\\"';
 
-                                    if (current.strikethrough && !previous.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
-                                    else if (!current.strikethrough) converted_line += ',\\"strikethrough\\":\\"false\\"';
+                                if (current.bold && !previous.bold) converted_line += ',\\"bold\\":\\"true\\"';
+                                else if (!current.bold) converted_line += ',\\"bold\\":\\"false\\"';
 
-                                    if (current.underline && !previous.underline) converted_line += ',\\"underline\\":\\"true\\"';
-                                    else if (!current.underline) converted_line += ',\\"underline\\":\\"false\\"';
+                                if (current.strikethrough && !previous.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
+                                else if (!current.strikethrough) converted_line += ',\\"strikethrough\\":\\"false\\"';
 
-                                    if (!current.italic && previous.italic) converted_line += ',\\"italic\\":\\"false\\"';
-                                    else if (current.italic && !previous.italic) converted_line += ',\\"italic\\":\\"true\\"';
-                                } else {
-                                    if (current.color != null) converted_line += `,\\"color\\":\\"${current.color}\\"`;
-                                    if (current.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
-                                    if (current.bold) converted_line += ',\\"bold\\":\\"true\\"';
-                                    if (current.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
-                                    if (current.underline) converted_line += ',\\"underline\\":\\"true\\"';
-                                    if (current.italic) converted_line += ',\\"italic\\":\\"true\\"';
-                                    else converted_line += ',\\"italic\\":\\"false\\"';
-                                }
+                                if (current.underline && !previous.underline) converted_line += ',\\"underline\\":\\"true\\"';
+                                else if (!current.underline) converted_line += ',\\"underline\\":\\"false\\"';
 
-                                index++;
+                                if (!current.italic && previous.italic) converted_line += ',\\"italic\\":\\"false\\"';
+                                else if (current.italic && !previous.italic) converted_line += ',\\"italic\\":\\"true\\"';
+                            } else {
+                                if (current.color != null) converted_line += `,\\"color\\":\\"${current.color}\\"`;
+                                if (current.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
+                                if (current.bold) converted_line += ',\\"bold\\":\\"true\\"';
+                                if (current.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
+                                if (current.underline) converted_line += ',\\"underline\\":\\"true\\"';
+                                if (current.italic) converted_line += ',\\"italic\\":\\"true\\"';
+                                else converted_line += ',\\"italic\\":\\"false\\"';
+                            }
 
-                                converted_line += '}';
-                                if (i != line.length - 2) converted_line += ',';
-                            } else converted_line += '}';
+                            index++;
+
+                            converted_line += '}';
+                            if (i < line.length - 2) converted_line += ',';
                         }
                     }
                 }
