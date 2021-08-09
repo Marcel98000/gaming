@@ -1,0 +1,11 @@
+Minecraft Screenshots
+Resourcepacks used:
+- Vanillatweaks https://vanillatweaks.net/picker/resource-packs/
+- Map Assets (used for title1 and 2, made by myself) [no download]
+- WynnPack 1.20.3 (used in Wynncraft) https://wynncraft.com
+Shaders used:
+- Complementary Shaders v4.1 https://www.curseforge.com/minecraft/customization/complementary-shaders
+- BSL v8.0.0.1 (used in Wynncraft) https://www.curseforge.com/minecraft/customization/bsl-shaders
+Builds are made by me
+
+Just in case you wanted to know

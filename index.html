@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang = "de">
 <meta charset = "UTF-8">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Die Gaming Zone" />
@@ -9,15 +9,23 @@
 <head>
     <link rel = "icon" href = "https://marcel98000.github.io/gaming/img/logo.png">
     <link rel = "stylesheet" href = "style.css">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/css?family=Oxygen">
 </head>
 <body>
     <title>Die Gaming Zone</title>
     <script src = "js/title_mask_and_gayming.js"></script>
     <ul>
         <li><a class = "active" href="index.html"><img src = "img/logo.png"></a></li>
-        <li><a href="info.html"><img src = "img/info.png"></a></li>
-        <li><a href="index.html#tools"><img src = "img/tools.png"></a></li>
-        <li style = "float:right"><a href="https://github.com/Marcel98000/gaming/issues"><img src = "img/issues.png"></a></li>
+        <li><a href = "info.html"><img src = "img/info.png"></a></li>
+        <li>
+            <div class = "tools">
+                <button class = "tools_button"><img src = "img/tools.png"></button>
+                <ul class = "tools_dropdown">
+                    <li><a href = "mc_item_cmd_generator.html">- Minecraft Item Command Generator</a></li>
+                </ul>
+            </div>
+        </li>
+        <li style = "float:right; margin-right: 16px"><a href="https://github.com/Marcel98000/gaming/issues"><img src = "img/issues.png"></a></li>
     </ul>
     <div id = "title_background"></div>
     <p class = "mask_title" id = "title"><b>Die Gaming Zone</b></p>
@@ -25,27 +33,24 @@
     <br><br><br>
     <p class = "header" style = "border-top-width: 60px; margin-top: -60px"><b>Willkommen</b></p>
     <p class = "text_block">
-        Hi das ist die beste Website aller Zeiten.
-        <br>Wenn ich Ideen für Zeug habe / wenn etwas
-        <br>verbessert werden mach ich hier was neues.
+        Das hier ist die beste Website aller Zeiten.
+        <br>Wenn ich Ideen für Zeug habe oder wenn etwas
+        <br>verbessert werden muss, mach ich hier was neues.
     </p>
     <p class = "header"><b>Coming Soon™</b></p>
     <p class = "text_block">
-        - Mehr features für den MC Item Command Generator
-        <br>- Web Cookies, welche nicht deine Daten klauen
-        <br>- Keine Ahnung hab keine Ideen
+        - Wynncraft XP Leaderboard
+        <br>- GitHub Repositories Info
     </p>
     <p class = "header" id = "tools"><b>Tools</b></p>
     <p class = "text_block">
-        Hier sind einige Tools welche ich in JavaScript Programmiert habe
-        <br>weil ich keinen bock hatte shit manuell zu machen.
+        Hier sind Tools die ich gemacht habe um Sachen einfacher zu machen.
         <br>- 
         <a href = "mc_item_cmd_generator.html">Minecraft Item Command Generator</a>
     </p>
     <div id = "space"></div>
     <p class = "bottom_text">
-        <br>Copyright 2021 Die Gaming Zone | All Rights Reserved und so ne scheiße lol.
-        <br>Powered by Github and your Mom.
+        <br>Copyright 2021 Die Gaming Zone | All Rights Reserved und so ich hab kein Copyright.
     </p>
 </body>
 </html>

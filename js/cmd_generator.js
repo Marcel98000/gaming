@@ -12,47 +12,6 @@ function remove_object (type) {
     elements[elements.length - 1].remove();
 }
 
-// cookies coming soon:tm: (hab ich noch nicht mal getestet)
-
-//window.onload = function () {
-//    // Loads Cookie Data
-//    if (document.cookie.indexOf('cookie=') == -1) {
-//        var expiry_date = new Date();
-//        expiry_date.setMonth(expiry_date.getMonth() + 1);
-//        document.cookie = `cookie=item_cookie; expires=${expiry_date.toUTCString()}; path=/`;
-//    } else {
-//        var data = document.cookie.split('; ');
-//        for (var i = 0; i < data.length; i++) data[i] = data[i].split('=')[1];
-//        var nbt = {
-//            id: data[1],
-//            count: data[2],
-//            name: data[3],
-//            lore: data[4],
-//            attributes: data[5],
-//            enchantments: data[6]
-//        };
-//        document.getElementById('input_item_id').value = nbt.id;
-//        document.getElementById('input_item_count').value = nbt.count;
-//        document.getElementById('input_item_name').value = nbt.name;
-//        document.getElementById('input_item_lore').value = nbt.lore;
-//        // attribute & enchantment shit soon
-//    }
-//}
-
-//window.setInterval(function () {
-//    // Saves Data to Cookie every 10 Seconds
-//    var param = document.getElementsByName('param');
-//    var nbt = {
-//        id: param[0].value, // String
-//        count: param[1].value, // Integer
-//        name: param[2].value, // String
-//        lore: param[3].value, // String
-//        attributes: document.getElementsByName('input_item_attribute'), // Object
-//        enchantments: document.getElementsByName('input_item_enchantment') // Object
-//    };
-//    document.cookie = `cookie=item_cookie; id=${nbt.id}; count=${nbt.count}; name=${nbt.name}; lore=${nbt.lore}; attributes=${nbt.attributes}; enchantments=${nbt.enchantments}; expires=${expiry_date.toUTCString()}; path=/`;
-//}, 10000);
-
 // Das krasse Ding
 // Ich sollte mehr Kommentare einbauen damit ich später diese Scheiße verstehe
 function generate_command (nbt) {
@@ -71,32 +30,82 @@ function generate_command (nbt) {
                 line = line.split('§');
                 if (line.length == 1) converted_line += `{\\"text\\":\\"${line[0]}\\",\\"italic\\":\\"false\\"}`;
                 else {
+                    var used_formatting = [], index = 0;
                     for (var i = 0; i < line.length; i++) {
-                        if (i % 2 == 0) {
+                        if (i % 2 == 0 && i < line.length - 1) {
                             converted_line += `{\\"text\\":\\"${line[i]}\\"`;
-                            if (i + 2 <= line.length) {
-                                var formatting = line[i + 1].split('/');
-                                if (formatting.includes('obfuscated')) converted_line += ',\\"obfuscated\\":\\"true\\"';
-                                else converted_line += ',\\"obfuscated\\":\\"false\\"';
-                                if (formatting.includes('bold')) converted_line += ',\\"bold\\":\\"true\\"';
-                                else converted_line += ',\\"bold\\":\\"false\\"';
-                                if (formatting.includes('strikethrough')) converted_line += ',\\"strikethrough\\":\\"true\\"';
-                                else converted_line += ',\\"strikethrough\\":\\"false\\"';
-                                if (formatting.includes('underline')) converted_line += ',\\"underline\\":\\"true\\"';
-                                else converted_line += ',\\"underline\\":\\"false\\"';
-                                if (formatting.includes('italic')) converted_line += ',\\"italic\\":\\"true\\"';
-                                else converted_line += ',\\"italic\\":\\"false\\"';
-                                var has_color = false;
-                                for (var j = 0; j < formatting.length; j++) {
-                                    if (formatting[j].includes('color')) converted_line += `,\\"color\\":\\"${formatting[j].split(':')[1]}\\"`;
-                                    has_color = true;
+                            var formatting = line[i + 1].split('/');
+
+                            // used_formatting wird beim generieren des commands überprüft, damit nicht teile des commands unnötig wiederholt werden.
+                            used_formatting[index] = {
+                                obfuscated: false,
+                                bold: false,
+                                strikethrough: false,
+                                underline: false,
+                                italic: false,
+                                color: null
+                            };
+
+                            var current = used_formatting[index], previous = used_formatting[index - 1];
+
+                            formatting.forEach(attribute => {
+                                switch (attribute) {
+                                    case 'obfuscated':
+                                        current.obfuscated = true;
+                                        break;
+                                    case 'bold':
+                                        current.bold = true;
+                                        break;
+                                    case 'strikethrough':
+                                        current.strikethrough = true;
+                                        break;
+                                    case 'underline':
+                                        current.underline = true;
+                                        break;
+                                    case 'italic':
+                                        current.italic = true;
+                                        break;
                                 }
-                                if (!has_color) converted_line += ',\\"color\\":\\"reset\\"';
-                                converted_line += '}';
-                            } else {
-                                converted_line += `{\\"text\\":\\"${line[i]}\\",\\"color\\":\\"reset\\",\\"obfuscated\\":\\"false\\",\\"bold\\":\\"false\\",\\"strikethrough\\":\\"false\\",\\"underline\\":\\"false\\",\\"italic\\":\\"false\\"}`;
-                                if (i != line.length - 2) converted_line += ',';
+                            });
+
+                            for (var j = 0; j < formatting.length; j++) if (formatting[j].includes('color')) {
+                                current.color = formatting[j].split(':')[1];
+                                break;
                             }
+
+                            if (index) {
+                                // generiert den text mithilfe von used_formatting
+                                if (current.color == null) converted_line += ',\\"color\\":\\"reset\\"';
+                                else if (current.color != previous.color) converted_line += `,\\"color\\":\\"${current.color}\\"`;
+
+                                if (current.obfuscated && !previous.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
+                                else if (!current.obfuscated) converted_line += ',\\"obfuscated\\":\\"false\\"';
+
+                                if (current.bold && !previous.bold) converted_line += ',\\"bold\\":\\"true\\"';
+                                else if (!current.bold) converted_line += ',\\"bold\\":\\"false\\"';
+
+                                if (current.strikethrough && !previous.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
+                                else if (!current.strikethrough) converted_line += ',\\"strikethrough\\":\\"false\\"';
+
+                                if (current.underline && !previous.underline) converted_line += ',\\"underline\\":\\"true\\"';
+                                else if (!current.underline) converted_line += ',\\"underline\\":\\"false\\"';
+
+                                if (!current.italic && previous.italic) converted_line += ',\\"italic\\":\\"false\\"';
+                                else if (current.italic && !previous.italic) converted_line += ',\\"italic\\":\\"true\\"';
+                            } else {
+                                if (current.color != null) converted_line += `,\\"color\\":\\"${current.color}\\"`;
+                                if (current.obfuscated) converted_line += ',\\"obfuscated\\":\\"true\\"';
+                                if (current.bold) converted_line += ',\\"bold\\":\\"true\\"';
+                                if (current.strikethrough) converted_line += ',\\"strikethrough\\":\\"true\\"';
+                                if (current.underline) converted_line += ',\\"underline\\":\\"true\\"';
+                                if (current.italic) converted_line += ',\\"italic\\":\\"true\\"';
+                                else converted_line += ',\\"italic\\":\\"false\\"';
+                            }
+
+                            index++;
+
+                            converted_line += '}';
+                            if (i < line.length - 2) converted_line += ',';
                         }
                     }
                 }
@@ -147,7 +156,10 @@ function generate_command (nbt) {
         command += ']';
     }
     if (ItemName != '' || ItemLore != '' || nbt.attributes.length != 0 || nbt.enchantments.length != 0) command += '}';
-    if (nbt.count != '') command += ` ${nbt.count}`;
+    if (nbt.count != '') {
+        command += ` ${nbt.count}`;
+        if (nbt.count > 6400) alert(`Die Itemanzahl ist ${nbt.count}, was größer als das limit von 6400 ist`);
+    }
     // Copy to Clipboard
     document.getElementById('output').value = command;
     document.getElementById('output').select();
