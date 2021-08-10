@@ -115,9 +115,10 @@ function generate_command (nbt) {
             if (type == 0) string += `Name:"${convert_line(input)}"`;
             else {
                 input = input.split('\n');
-                string += 'Lore:["[';
-                for (var i = 0; i < input.length; i++) string += convert_line(input[i]);
-                string += ']"]';
+                string += 'Lore:["';
+                for (var i = 0; i < input.length; i++) string += `[${convert_line(input[i])}]","`;
+                string = string.slice(0, -3);
+                string += '"]';
             }
             return string;
         }
