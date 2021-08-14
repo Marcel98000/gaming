@@ -138,7 +138,6 @@ li button img {
     text-align: center;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
-    background-image: url(title_mask.png);
     background-repeat: no-repeat;
     background-position: center;
     background-color: var(--vibrant-gradient1);
@@ -157,7 +156,7 @@ li button img {
     height: 256px;
     background: repeat-x;
     margin-top: -16px;
-    background-image: url(img/gradient.png), linear-gradient(0deg, rgba(29,32,48,1) 48%, rgba(255,255,255,1) 49%, rgba(13,50,251,1) 50%);
+    background-image: url(../img/gradient.png), linear-gradient(0deg, rgba(29,32,48,1) 48%, rgba(255,255,255,1) 49%, rgba(13,50,251,1) 50%);
 }
 
 #space {
@@ -244,6 +243,16 @@ button:not(li button) {
     background-color: var(--button_and_input);
     color: var(--text);
     font-size: 32px;
+    border: var(--border_color) solid 2px;
+    border-radius: 8px;
+    margin-left: 256px;
+}
+
+/* Other */
+
+iframe {
+    width: 300px;
+    height: 400px;
     border: var(--border_color) solid 2px;
     border-radius: 8px;
     margin-left: 256px;
